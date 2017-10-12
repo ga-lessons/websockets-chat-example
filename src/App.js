@@ -10,17 +10,14 @@ class App extends Component {
     this.state = {
       messages: []
     }
-  }
-
-  componentDidMount () {
-    socket.on('chat message', (msg) => {
-      this.setState({messages: this.state.messages.concat(msg)})
-    })
+    this.submitMessage = this.submitMessage.bind(this)
   }
 
   submitMessage (e) {
     e.preventDefault()
-    socket.emit('chat message', document.getElementById('message').value)
+    let msg = document.getElementById('message').value
+    this.setState({messages: this.state.messages.concat(msg)})
+    socket.emit('chat message', msg)
     document.getElementById('message').value = ''
   }
 
