@@ -15,7 +15,6 @@ const Message = Schema.Message
 
 // Socket.io Connection
 io.on('connection', (socket) => {
-  console.log('user connected')
   const messages = []
   Message.find({}).then((m) => m.map(x => messages.push(x.body)))
   setTimeout(() => { io.emit('initial messages', messages) }, 500)
@@ -23,9 +22,5 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg)
     Message.create({body: msg})
-  })
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
   })
 })
