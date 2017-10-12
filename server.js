@@ -15,9 +15,10 @@ const Message = Schema.Message
 
 // Socket.io Connection
 io.on('connection', (socket) => {
-  const messages = []
-  Message.find({}).then((m) => m.map(x => messages.push(x.body)))
-  setTimeout(() => { io.emit('initial messages', messages) }, 500)
+  Message.find({}).then(response => {
+    const messages = response.map(message => message.body)
+    io.emit('initial messages', messages)
+  })
 
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg)
