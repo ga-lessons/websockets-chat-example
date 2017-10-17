@@ -17,12 +17,14 @@ class App extends Component {
     socket.on('initial messages', (messages) => {
       this.setState({messages: messages})
     })
+    socket.on('chat message', (msg) => {
+      this.setState({messages: this.state.messages.concat(msg)})
+    })
   }
 
   submitMessage (e) {
     e.preventDefault()
     let msg = document.getElementById('message').value
-    this.setState({messages: this.state.messages.concat(msg)})
     socket.emit('chat message', msg)
     document.getElementById('message').value = ''
   }
